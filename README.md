@@ -1,8 +1,8 @@
-# Angular Validators
+# Angular Slider Tabs
 
-[![Code Climate](https://codeclimate.com/github/intellix/angular-validators.png)](https://codeclimate.com/github/intellix/angular-validators)
+[![Code Climate](https://codeclimate.com/github/intellix/angular-slider-tabs.png)](https://codeclimate.com/github/intellix/angular-slider-tabs)
 
-Re-useable validators to use across my projects
+Re-useable slider-tabs to use across my projects
 
 ## Todo
 
@@ -10,16 +10,16 @@ Everything
 
 ## Demo
 
-[Demo](http://intellix.github.io/angular-validators/)
+[Demo](http://intellix.github.io/angular-slider-tabs/)
 
 ## Installation
 
-`bower install angular-validators`
+`bower install angular-slider-tabs`
 
 Then add `angularValidators` to your modules dependencies:
 
 ```javascript
-angular.module('app', ['angular-validators'])
+angular.module('app', ['angularSliderTabs'])
 ```
 
 ## Usage
