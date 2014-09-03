@@ -1,0 +1,51 @@
+/* line 3, ../src/slider-tabs.scss */
+.slider-tabs {
+  position: relative;
+  margin-bottom: 20px;
+  height: 42px;
+  line-height: 42px;
+}
+/* line 9, ../src/slider-tabs.scss */
+.slider-tabs .slide-container {
+  z-index: 1;
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  margin-left: -46px;
+  width: 92px;
+  height: 66px;
+  background-position: center center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+/* line 22, ../src/slider-tabs.scss */
+.slider-tabs .viewport {
+  overflow: hidden;
+}
+/* line 26, ../src/slider-tabs.scss */
+.slider-tabs .scroll {
+  display: -webkit-flex;
+  display: flex;
+}
+/* line 30, ../src/slider-tabs.scss */
+.slider-tabs .scroll.snap {
+  -moz-transition: all 0.1s ease-in;
+  -o-transition: all 0.1s ease-in;
+  -webkit-transition: all 0.1s ease-in;
+  transition: all 0.1s ease-in;
+}
+/* line 35, ../src/slider-tabs.scss */
+.slider-tabs .slider-tab {
+  -webkit-flex: 1;
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+  text-align: center;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* line 44, ../src/slider-tabs.scss */
+.slider-tabs .slider-tab > a {
+  display: block;
+}

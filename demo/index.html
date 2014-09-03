@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <script src="../bower_components/angular/angular.js"></script>
+        <script src="../dist/slider-tabs.js"></script>
+        <script src="../dist/slider-tabs.tpl.js"></script>
+        <link rel="stylesheet" href="../dist/slider-tabs.css">
+        <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+        <script>
+            angular.module('app', [
+                'angularSliderTabs'
+            ]).controller('MainCtrl', function($scope) {
+                $scope.items = [
+                    {a: 1}, {a: 2}, {a: 3}, {a: 4}, {a: 5},
+                    {a: 1}, {a: 2}, {a: 3}, {a: 4}, {a: 5},
+                    {a: 1}, {a: 2}, {a: 3}, {a: 4}, {a: 5}
+                ];
+                $scope.selectItem = function(item) {
+                    $scope.selected = item;
+                };
+            });
+        </script>
+        <style>
+            .slider-tabs {
+                border-bottom: 1px solid #fff;
+                border-top: 1px solid #fff;
+                -moz-box-shadow: inset 0px 0px 13px #000037, inset -100px 0 30px rgba(0, 0, 55, 0.15), inset 100px 0 30px rgba(0, 0, 55, 0.15), inset 0 0 5px rgba(0, 0, 55, 0.15), inset 0 0 5px rgba(0, 0, 55, 0.15), 0 0 5px black;
+                -webkit-box-shadow: inset 0px 0px 13px #000037, inset -100px 0 30px rgba(0, 0, 55, 0.15), inset 100px 0 30px rgba(0, 0, 55, 0.15), inset 0 0 5px rgba(0, 0, 55, 0.15), inset 0 0 5px rgba(0, 0, 55, 0.15), 0 0 5px black;
+                box-shadow: inset 0px 0px 13px #000037, inset -100px 0 30px rgba(0, 0, 55, 0.15), inset 100px 0 30px rgba(0, 0, 55, 0.15), inset 0 0 5px rgba(0, 0, 55, 0.15), inset 0 0 5px rgba(0, 0, 55, 0.15), 0 0 5px black;
+                background-color: #2985db;
+                color: #fff;
+            }
+
+            .slider-tab {
+                border-left: 1px solid rgba(255, 255, 255, 1);
+                box-shadow: inset 0 0 5px black;
+            }
+            .slider-tab:first-child {
+                border-left: 0;
+            }
+
+            .slide-container {
+                background-image: url('slide-container.png');
+            }
+        </style>
+    </head>
+    <body ng-app="app" ng-controller="MainCtrl">
+        <div class="container">
+
+            <h1>Angular Slider Tabs</h1>
+            <p>Swipe left/right or tap a tab</p>
+
+            <hr>
+
+            <p><b>Selected:</b> {{selected}}</p>
+            
+            <slider-tabs tabs-visible="3" on-select="selectItem">
+                <slider-tab class="slider-tab" ng-repeat="item in items" item="item">{{item.a}}</slider-tab>
+            </slider-tabs>
+
+        </div>
+    </body>
+</html>
