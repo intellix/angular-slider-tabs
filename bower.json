@@ -7,7 +7,8 @@
     "Dominic Watson <domwatson@live.co.uk>"
   ],
   "main": [
-    "./dist/*.js"
+    "./dist/*.js",
+    "./dist/*.css"
   ],
   "ignore": [
     "config",
@@ -22,7 +23,8 @@
     "package.json",
     "**/.*",
     "bower_components",
-    "tests"
+    "tests",
+    "test"
   ],
   "dependencies": {
     "angular": "1.2.x"
@@ -38,5 +40,8 @@
     "slider",
     "tabs"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "moduleType": [
+    "globals"
+  ]
 }
