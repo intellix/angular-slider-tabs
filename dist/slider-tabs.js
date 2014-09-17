@@ -20,19 +20,15 @@
                     sliderTabsCtrl.start();
                 }
 
-                // ARGH! Why is tap not simply abstracted? and why can't you event.stopPropagation() on their Ctrler
-                var mousedown, mousenow;
-                element.on('mousedown touchstart', function(event) {
-                    mousedown = mousenow = event.pageX || event.touches[0].pageX;
+                var down;
+                element.on('mousedown', function(event) {
+                    down = event.pageX || event.touches[0].pageX;
                 });
-                element.on('mousemove touchmove', function(event) {
-                    mousenow = event.pageX || event.touches[0].pageX;
-                });
-                element.on('mouseup touchend', function(event) {
-                    if (mousenow === mousedown) {
-                        $timeout(function() {
-                            sliderTabsCtrl.slideTo(scope.$index);
-                        });
+
+                element.on('click', function(event) {
+                    var now = event.pageX || event.touches[0].pageX;
+                    if (angular.isDefined(now) && down === now) {
+                        sliderTabsCtrl.slideTo(scope.$index);
                     }
                 });
 
@@ -63,7 +59,7 @@
             {
                 var self = this;
                 var inner = angular.element($element[0].querySelector('.scroll'));
-                var toggler = angular.element($element[0].querySelector('.toggler'));
+                var toggler = angular.element($element[0].querySelector('.slide-container'));
                 var tabsVisible = $scope.tabsVisible || 3;
                 // TODO: Automatically create 3x of each tab and loop through viewItems in view
                 var items = [];
@@ -171,6 +167,7 @@
                     var selected = items[index];
                     currentX = ((index+1) * tabWidth - (tabsVisible / 2 + 1) * tabWidth) * -1;
                     inner.css({ '-webkit-transform': 'translate3d(' + parseInt(currentX, 10) + 'px, 0, 0)' });
+
                     if (angular.isDefined($scope.onSelect) && angular.isDefined(selected.item)) {
                         $scope.onSelect(selected.item);
                     }

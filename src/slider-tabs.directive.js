@@ -15,7 +15,7 @@
             {
                 var self = this;
                 var inner = angular.element($element[0].querySelector('.scroll'));
-                var toggler = angular.element($element[0].querySelector('.toggler'));
+                var toggler = angular.element($element[0].querySelector('.slide-container'));
                 var tabsVisible = $scope.tabsVisible || 3;
                 // TODO: Automatically create 3x of each tab and loop through viewItems in view
                 var items = [];
@@ -123,6 +123,7 @@
                     var selected = items[index];
                     currentX = ((index+1) * tabWidth - (tabsVisible / 2 + 1) * tabWidth) * -1;
                     inner.css({ '-webkit-transform': 'translate3d(' + parseInt(currentX, 10) + 'px, 0, 0)' });
+
                     if (angular.isDefined($scope.onSelect) && angular.isDefined(selected.item)) {
                         $scope.onSelect(selected.item);
                     }
