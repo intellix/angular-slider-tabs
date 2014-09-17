@@ -14,6 +14,7 @@
                     {a: 1}, {a: 2}, {a: 3}, {a: 4}, {a: 5}
                 ];
                 $scope.selectItem = function(item) {
+                    console.log(item);
                     $scope.selected = item;
                 };
             });
@@ -45,15 +46,15 @@
     <body ng-app="app" ng-controller="MainCtrl">
         <div class="container">
 
-            <h1>Angular Slider Tabs</h1>
+            <h1>Angular Slider Tabs v0.0.3</h1>
             <p>Swipe left/right or tap a tab</p>
 
             <hr>
 
             <p><b>Selected:</b> {{selected}}</p>
             
-            <slider-tabs tabs-visible="3" on-select="selectItem">
-                <slider-tab class="slider-tab" ng-repeat="item in items" item="item">{{item.a}}</slider-tab>
+            <slider-tabs tabs-visible="3">
+                <slider-tab class="slider-tab" ng-repeat="item in items" on-select="selectItem(item)">{{item.a}}</slider-tab>
             </slider-tabs>
 
         </div>
