@@ -17,8 +17,8 @@ describe('angularSliderTabs', function() {
             ];
             scope.selectItem = function(item) {};
 
-            element = $compile('<slider-tabs tabs-visible="3" on-select="selectItem">' +
-                                    '<slider-tab class="tab-item" ng-repeat="item in items">{{item.a}}</slider-tab>' +
+            element = $compile('<slider-tabs tabs-visible="3">' +
+                                    '<slider-tab class="tab-item" ng-repeat="item in items" on-select="selectItem(item)">{{item.a}}</slider-tab>' +
                                '</slider-tabs>')(scope);
             scope.$digest();
 
@@ -49,8 +49,8 @@ describe('angularSliderTabs', function() {
             scope.selectItem = function(item) {};
             spy = spyOn(scope, 'selectItem');
 
-            element = $compile('<slider-tabs tabs-visible="3" on-select="selectItem">' +
-                                    '<slider-tab class="tab-item" ng-repeat="item in items" item="item">{{item.a}}</slider-tab>' +
+            element = $compile('<slider-tabs tabs-visible="3">' +
+                                    '<slider-tab class="tab-item" ng-repeat="item in items" on-select="selectItem(item)">{{item.a}}</slider-tab>' +
                                '</slider-tabs>')(scope);
             scope.$digest();
 

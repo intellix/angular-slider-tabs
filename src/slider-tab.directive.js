@@ -5,13 +5,12 @@
         return {
             require: '^sliderTabs',
             restrict: 'EA',
+            scope: {
+                onSelect: '&'
+            },
             link: function (scope, element, attrs, sliderTabsCtrl)
             {
                 sliderTabsCtrl.add(scope);
-
-                if (scope.$last) {
-                    sliderTabsCtrl.start();
-                }
 
                 var down;
                 element.on('mousedown', function(event) {
@@ -21,7 +20,7 @@
                 element.on('click', function(event) {
                     var now = event.pageX || event.touches[0].pageX;
                     if (angular.isDefined(now) && down === now) {
-                        sliderTabsCtrl.slideTo(scope.$index);
+                        sliderTabsCtrl.slideToItem(scope);
                     }
                 });
 

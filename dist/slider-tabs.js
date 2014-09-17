@@ -12,13 +12,12 @@
         return {
             require: '^sliderTabs',
             restrict: 'EA',
+            scope: {
+                onSelect: '&'
+            },
             link: function (scope, element, attrs, sliderTabsCtrl)
             {
                 sliderTabsCtrl.add(scope);
-
-                if (scope.$last) {
-                    sliderTabsCtrl.start();
-                }
 
                 var down;
                 element.on('mousedown', function(event) {
@@ -28,7 +27,7 @@
                 element.on('click', function(event) {
                     var now = event.pageX || event.touches[0].pageX;
                     if (angular.isDefined(now) && down === now) {
-                        sliderTabsCtrl.slideTo(scope.$index);
+                        sliderTabsCtrl.slideToItem(scope);
                     }
                 });
 
@@ -52,8 +51,7 @@
             transclude: true,
             replace: true,
             scope: {
-                'tabsVisible': '=',
-                'onSelect': '='
+                tabsVisible: '='
             },
             controller: ['$scope', '$element', function($scope, $element)
             {
@@ -86,6 +84,7 @@
                         toggler.css({'width': togglerWidth + 'px', 'margin-left': (togglerWidth / 2) * -1 + 'px'});
 
                         snapTo(1 + totalTabs / 3);
+                        self.start();
 
                     }, 50);
                 }
@@ -164,41 +163,50 @@
 
                 function snapTo(index)
                 {
-                    var selected = items[index];
+                    var item = items[index];
                     currentX = ((index+1) * tabWidth - (tabsVisible / 2 + 1) * tabWidth) * -1;
                     inner.css({ '-webkit-transform': 'translate3d(' + parseInt(currentX, 10) + 'px, 0, 0)' });
 
-                    if (angular.isDefined($scope.onSelect) && angular.isDefined(selected.item)) {
-                        $scope.onSelect(selected.item);
+                    if (angular.isDefined(item.onSelect)) {
+                        item.onSelect();
                     }
                 }
 
                 // Public API
 
-                this.add = function(item)
+                self.add = function(item)
                 {
                     items.push(item);
+                    setup();
                 };
 
-                this.remove = function(item)
+                self.remove = function(item)
                 {
                     items = _.without(items, item);
                     setup();
                 };
 
-                this.start = function()
+                self.start = function()
                 {
-                    setup();
                     $element.on('mousedown touchstart', mousedown);
                 };
 
-                this.stop = function()
+                self.stop = function()
                 {
                     $element.off('mousedown touchstart', mousedown);
                 };
 
                 // TODO: Work out how the hell to use ngAnimate -.-
-                this.slideTo = function(index)
+                self.slideToItem = function(scope)
+                {
+                    angular.forEach(items, function(item, index) {
+                        if (item === scope) {
+                            self.slideTo(index);
+                            return false;
+                        }
+                    });
+                };
+                self.slideTo = function(index)
                 {
                     inner.addClass('snap');
                     snapTo(index);
