@@ -17,7 +17,7 @@
                     down = event.pageX || event.touches[0].pageX;
                 });
 
-                element.on('click', function(event) {
+                element.on('click tap', function(event) {
                     var now = event.pageX || event.touches[0].pageX;
                     if (angular.isDefined(now) && down === now) {
                         sliderTabsCtrl.slideToItem(scope);
