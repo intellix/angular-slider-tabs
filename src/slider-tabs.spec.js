@@ -2,7 +2,7 @@ describe('angularSliderTabs', function() {
 
     beforeEach(module('angularSliderTabs'));
 
-    describe('slider setup', function() {
+    describe('slider', function() {
 
         var scope, element, timeout, $document;
 
@@ -29,6 +29,11 @@ describe('angularSliderTabs', function() {
             var style = element.find('.slide-container')[0].style;
             expect(style.width).toNotBe('');
             expect(style.marginLeft).toNotBe('');
+        });
+
+        it('can be destroyed', function() {
+            scope.$destroy();
+            timeout.flush();
         });
 
     });

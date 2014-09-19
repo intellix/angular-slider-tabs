@@ -26,8 +26,13 @@
                 {
                     $timeout.cancel(setupTimerId);
                     setupTimerId = $timeout(function () {
-                        // 2x halves are visible on both sides
+
                         totalTabs = items.length;
+                        if (totalTabs < 1) {
+                            return;
+                        }
+                        
+                        // 2x halves are visible on both sides
                         tabWidth = $element[0].offsetWidth / (tabsVisible + 1);
                         togglerWidth = tabWidth + 15;
 
@@ -40,8 +45,7 @@
                         inner.css({'width': tabWidth * totalTabs + 'px'});
                         toggler.css({'width': togglerWidth + 'px', 'margin-left': (togglerWidth / 2) * -1 + 'px'});
 
-                        snapTo(1 + totalTabs / 3);
-                        self.start();
+                        snapTo(1 + Math.floor(totalTabs / 3));
 
                     }, 50);
                 }
@@ -143,16 +147,6 @@
                     setup();
                 };
 
-                self.start = function()
-                {
-                    $element.on('mousedown touchstart', mousedown);
-                };
-
-                self.stop = function()
-                {
-                    $element.off('mousedown touchstart', mousedown);
-                };
-
                 // TODO: Work out how the hell to use ngAnimate -.-
                 self.slideToItem = function(scope)
                 {
@@ -190,6 +184,9 @@
                     $timeout.cancel(setupTimerId);
                     $window.removeEventListener('orientationchange', orientationChange, false);
                 });
+                
+                $element.on('mousedown touchstart', mousedown);
+
             }
         };
     });
