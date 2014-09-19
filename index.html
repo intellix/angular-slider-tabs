@@ -1,6 +1,7 @@
 <html>
     <head>
         <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/lodash/dist/lodash.min.js"></script>
         <script src="dist/slider-tabs.min.js"></script>
         <link rel="stylesheet" href="dist/slider-tabs.css">
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -8,15 +9,37 @@
             angular.module('app', [
                 'angularSliderTabs'
             ]).controller('MainCtrl', function($scope) {
-                $scope.items = [
-                    {a: 1}, {a: 2}, {a: 3}, {a: 4}, {a: 5},
-                    {a: 1}, {a: 2}, {a: 3}, {a: 4}, {a: 5},
-                    {a: 1}, {a: 2}, {a: 3}, {a: 4}, {a: 5}
-                ];
-                $scope.selectItem = function(item) {
+
+                // Until directive supports this
+                var items = [{a: 1}, {a: 2}, {a: 3}, {a: 4}, {a: 5}];
+
+                function update()
+                {
+                    $scope.items = _.flatten([items, items, items]);
+                }
+
+                $scope.enabled = 1;
+                $scope.selectItem = function(item)
+                {
                     console.log(item);
                     $scope.selected = item;
                 };
+                $scope.add = function()
+                {
+                    items.push({
+                        a: _.max(items, function(item) {
+                            return item.a;
+                        }).a + 1
+                    });
+                    update();
+                };
+                $scope.remove = function()
+                {
+                    items.pop();
+                    update();
+                };
+
+                update();
             });
         </script>
         <style>
@@ -46,16 +69,34 @@
     <body ng-app="app" ng-controller="MainCtrl">
         <div class="container">
 
-            <h1>Angular Slider Tabs v0.0.4</h1>
+            <h1>Angular Slider Tabs v0.0.5</h1>
             <p>Swipe left/right or tap a tab</p>
 
             <hr>
 
+            <p><b>Total:</b> {{items.length}}</p>
             <p><b>Selected:</b> {{selected}}</p>
             
-            <slider-tabs tabs-visible="3">
-                <slider-tab class="slider-tab" ng-repeat="item in items" on-select="selectItem(item)">{{item.a}}</slider-tab>
+            <slider-tabs tabs-visible="3" ng-if="enabled">
+                <slider-tab class="slider-tab" ng-repeat="item in items track by $index" on-select="selectItem(item)">{{item.a}}</slider-tab>
             </slider-tabs>
+
+            <br>
+
+            <div class="row">
+                <div class="col-xs-6 text-center">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" ng-click="add()">Add item</button>
+                        <button class="btn btn-warning" ng-click="remove()">Remove item</button>
+                    </div>
+                </div>
+                <div class="col-xs-6 text-center">
+                    <div class="btn-group">
+                        <button class="btn btn-success" ng-click="enabled = 1">Enable</button>
+                        <button class="btn btn-danger" ng-click="enabled = 0">Disable</button>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </body>
