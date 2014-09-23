@@ -2,7 +2,9 @@
     <head>
         <script src="../bower_components/angular/angular.js"></script>
         <script src="../bower_components/lodash/dist/lodash.js"></script>
-        <script src="../dist/slider-tabs.js"></script>
+        <script src="../src/slider-tabs.module.js"></script>
+        <script src="../src/slider-tabs.directive.js"></script>
+        <script src="../src/slider-tab.directive.js"></script>
         <script src="../dist/slider-tabs.tpl.js"></script>
         <link rel="stylesheet" href="../dist/slider-tabs.css">
         <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
@@ -16,7 +18,7 @@
 
                 function update()
                 {
-                    $scope.items = _.flatten([items, items, items]);
+                   $scope.items = _.flatten([items, items, items]);
                 }
 
                 $scope.enabled = 1;
@@ -24,6 +26,11 @@
                 {
                     console.log(item);
                     $scope.selected = item;
+                };
+                $scope.choose = function(index)
+                {
+                    console.log($scope.items);
+                    $scope.items[index].active = true;
                 };
                 $scope.add = function()
                 {
@@ -70,16 +77,17 @@
     <body ng-app="app" ng-controller="MainCtrl">
         <div class="container">
 
-            <h1>Angular Slider Tabs</h1>
+            <h1>Angular Slider Tabs v0.0.5</h1>
             <p>Swipe left/right or tap a tab</p>
 
             <hr>
 
             <p><b>Total:</b> {{items.length}}</p>
+            <p><b>All:</b> {{items}}</p>
             <p><b>Selected:</b> {{selected}}</p>
             
             <slider-tabs tabs-visible="3" ng-if="enabled">
-                <slider-tab class="slider-tab" ng-repeat="item in items track by $index" on-select="selectItem(item)">{{item.a}}</slider-tab>
+                <slider-tab class="slider-tab" ng-repeat="item in items track by $index" on-select="selectItem(item)" active="item.active">{{item.a}}</slider-tab>
             </slider-tabs>
 
             <br>
@@ -96,6 +104,15 @@
                         <button class="btn btn-success" ng-click="enabled = 1">Enable</button>
                         <button class="btn btn-danger" ng-click="enabled = 0">Disable</button>
                     </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="text-center">
+                <p><b>Active slider tab</b></p>
+                <div class="btn-group">
+                    <button class="btn btn-default" ng-class="{'btn-primary': item.active}" ng-repeat="item in items track by $index" ng-click="choose($index)">{{item.a}}</button>
                 </div>
             </div>
 

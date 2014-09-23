@@ -13,23 +13,26 @@
             require: '^sliderTabs',
             restrict: 'EA',
             scope: {
-                onSelect: '&'
+                onSelect: '&',
+                active: '=?'
             },
             link: function (scope, element, attrs, sliderTabsCtrl)
             {
                 sliderTabsCtrl.add(scope);
 
                 var down;
-                element.on('mousedown', function(event) {
+                element.on('mousedown touchstart', function(event) {
                     down = event.pageX || event.touches[0].pageX;
                 });
 
-                element.on('click tap', function(event) {
+                element.on('mouseup touchend', function(event) {
                     var now = event.pageX || event.touches[0].pageX;
                     if (angular.isDefined(now) && down === now) {
                         sliderTabsCtrl.slideToItem(scope);
                     }
                 });
+
+                // TODO: Listen for change to active and move to it
 
                 // Cleanup
                 scope.$on('$destroy', function() {
@@ -61,7 +64,7 @@
                 var tabsVisible = $scope.tabsVisible || 3;
                 // TODO: Automatically create 3x of each tab and loop through viewItems in view
                 var items = [];
-                var totalTabs, tabWidth, togglerWidth, currentX, startX, minX, maxX;
+                var currentIndex, totalTabs, tabWidth, togglerWidth, currentX, startX, minX, maxX;
 
                 // Debounced setup
                 var setupTimerId;
@@ -86,9 +89,14 @@
 
                         // Pull back slider so we have a device width on either side
                         inner.css({'width': tabWidth * totalTabs + 'px'});
-                        toggler.css({'width': togglerWidth + 'px', 'margin-left': (togglerWidth / 2) * -1 + 'px'});
+                        toggler.css({'width': togglerWidth + 'px', 'margin-left': (togglerWidth / 2) * -1 + 'px'})
 
-                        snapTo(1 + Math.floor(totalTabs / 3));
+                        // If user doesn't define an active index, default to middle
+                        if (!angular.isDefined(currentIndex)) {
+                            currentIndex = 1 + Math.floor(totalTabs / 3);
+                        }
+
+                        snapTo(currentIndex);
 
                     }, 50);
                 }
@@ -158,20 +166,20 @@
                     var delta = totalTabs / 3; // 4
                     if (index < delta) {
                         // Left
-                        snapTo(index + delta);
+                        snapTo(index + delta, true);
                     } else if (index > delta * 2) {
                         // Right
-                        snapTo(index - delta);
+                        snapTo(index - delta, true);
                     }
                 }
 
-                function snapTo(index)
+                function snapTo(index, silent)
                 {
                     var item = items[index];
-                    currentX = ((index+1) * tabWidth - (tabsVisible / 2 + 1) * tabWidth) * -1;
-                    inner.css({ '-webkit-transform': 'translate3d(' + parseInt(currentX, 10) + 'px, 0, 0)' });
+                    startX = currentX = ((index+1) * tabWidth - (tabsVisible / 2 + 1) * tabWidth) * -1;
+                    inner.css({ '-webkit-transform': 'translate3d(' + parseInt(currentX, 10) + 'px, 0, 0)' });                    
 
-                    if (angular.isDefined(item.onSelect)) {
+                    if (angular.isDefined(item.onSelect) && !silent) {
                         item.onSelect();
                     }
                 }
