@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('angularSliderTabs').directive('sliderTab', function($timeout) {
+    angular.module('angularSliderTabs').directive('sliderTab', function() {
         return {
             require: '^sliderTabs',
             restrict: 'EA',

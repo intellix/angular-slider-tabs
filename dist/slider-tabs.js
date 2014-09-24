@@ -8,13 +8,12 @@
 (function () {
     'use strict';
 
-    angular.module('angularSliderTabs').directive('sliderTab', ['$timeout', function($timeout) {
+    angular.module('angularSliderTabs').directive('sliderTab', function() {
         return {
             require: '^sliderTabs',
             restrict: 'EA',
             scope: {
-                onSelect: '&',
-                active: '=?'
+                onSelect: '&'
             },
             link: function (scope, element, attrs, sliderTabsCtrl)
             {
@@ -40,7 +39,7 @@
                 });
             }
         };
-    }]);
+    });
 
 }());
 
@@ -54,7 +53,8 @@
             transclude: true,
             replace: true,
             scope: {
-                tabsVisible: '='
+                tabsVisible: '=',
+                activeIndex: '=?'
             },
             controller: ['$scope', '$element', function($scope, $element)
             {
@@ -64,14 +64,14 @@
                 var tabsVisible = $scope.tabsVisible || 3;
                 // TODO: Automatically create 3x of each tab and loop through viewItems in view
                 var items = [];
-                var currentIndex, totalTabs, tabWidth, togglerWidth, currentX, startX, minX, maxX;
+                var totalTabs, tabWidth, togglerWidth, currentX, startX, minX, maxX;
 
                 // Debounced setup
                 var setupTimerId;
                 function setup()
                 {
                     $timeout.cancel(setupTimerId);
-                    setupTimerId = $timeout(function () {
+                    setupTimerId = $timeout(function() {
 
                         totalTabs = items.length;
                         if (totalTabs < 1) {
@@ -89,14 +89,14 @@
 
                         // Pull back slider so we have a device width on either side
                         inner.css({'width': tabWidth * totalTabs + 'px'});
-                        toggler.css({'width': togglerWidth + 'px', 'margin-left': (togglerWidth / 2) * -1 + 'px'})
+                        toggler.css({'width': togglerWidth + 'px', 'margin-left': (togglerWidth / 2) * -1 + 'px'});
 
                         // If user doesn't define an active index, default to middle
-                        if (!angular.isDefined(currentIndex)) {
-                            currentIndex = 1 + Math.floor(totalTabs / 3);
+                        if (!angular.isDefined($scope.activeIndex)) {
+                            $scope.activeIndex = 1 + Math.floor(totalTabs / 3);
                         }
 
-                        snapTo(currentIndex);
+                        snapTo($scope.activeIndex);
 
                     }, 50);
                 }
@@ -177,7 +177,9 @@
                 {
                     var item = items[index];
                     startX = currentX = ((index+1) * tabWidth - (tabsVisible / 2 + 1) * tabWidth) * -1;
-                    inner.css({ '-webkit-transform': 'translate3d(' + parseInt(currentX, 10) + 'px, 0, 0)' });                    
+                    inner.css({ '-webkit-transform': 'translate3d(' + parseInt(currentX, 10) + 'px, 0, 0)' });            
+
+                    $scope.activeIndex = index;        
 
                     if (angular.isDefined(item.onSelect) && !silent) {
                         item.onSelect();
