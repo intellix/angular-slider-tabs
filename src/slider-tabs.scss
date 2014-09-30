@@ -1,4 +1,23 @@
+@charset "UTF-8";
 @import 'compass';
+
+// Stolen from ionic for better support
+@mixin display-flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+@mixin flex($fg: 1, $fs: null, $fb: null) {
+    -webkit-box-flex: $fg;
+    -webkit-flex: $fg $fs $fb;
+    -moz-box-flex: $fg;
+    -moz-flex: $fg $fs $fb;
+    -ms-flex: $fg $fs $fb;
+    flex: $fg $fs $fb;
+}
 
 .slider-tabs {
     position: relative;
@@ -24,11 +43,11 @@
     }
 
     .scroll {
-        @include display-flex;
+        @include display-flex();
 
         // Animation
         &.snap {
-            @include single-transition(all, 0.1s, ease-in);
+            @include transition(all 0.1s ease-in);
         }
     }
 
@@ -36,6 +55,7 @@
         @include flex(1);
         overflow: hidden;
         height: 100%;
+        width: 0;
         text-align: center;
         text-decoration: none;
         text-overflow: ellipsis;
