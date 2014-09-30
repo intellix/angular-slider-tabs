@@ -1,11 +1,11 @@
-/* line 3, ../src/slider-tabs.scss */
+/* line 22, ../src/slider-tabs.scss */
 .slider-tabs {
   position: relative;
   margin-bottom: 20px;
   height: 42px;
   line-height: 42px;
 }
-/* line 9, ../src/slider-tabs.scss */
+/* line 28, ../src/slider-tabs.scss */
 .slider-tabs .slide-container {
   z-index: 1;
   position: absolute;
@@ -18,34 +18,43 @@
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
-/* line 22, ../src/slider-tabs.scss */
+/* line 41, ../src/slider-tabs.scss */
 .slider-tabs .viewport {
   overflow: hidden;
 }
-/* line 26, ../src/slider-tabs.scss */
+/* line 45, ../src/slider-tabs.scss */
 .slider-tabs .scroll {
+  display: -webkit-box;
   display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
   display: flex;
 }
-/* line 30, ../src/slider-tabs.scss */
+/* line 49, ../src/slider-tabs.scss */
 .slider-tabs .scroll.snap {
   -moz-transition: all 0.1s ease-in;
   -o-transition: all 0.1s ease-in;
   -webkit-transition: all 0.1s ease-in;
   transition: all 0.1s ease-in;
 }
-/* line 35, ../src/slider-tabs.scss */
+/* line 54, ../src/slider-tabs.scss */
 .slider-tabs .slider-tab {
+  -webkit-box-flex: 1;
   -webkit-flex: 1;
+  -moz-box-flex: 1;
+  -moz-flex: 1;
+  -ms-flex: 1;
   flex: 1;
   overflow: hidden;
   height: 100%;
+  width: 0;
   text-align: center;
   text-decoration: none;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 44, ../src/slider-tabs.scss */
+/* line 64, ../src/slider-tabs.scss */
 .slider-tabs .slider-tab > a {
   display: block;
 }
