@@ -12,17 +12,23 @@
 
                 // Until directive supports this
                 var items = [{a: 1}, {a: 2}, {a: 3}, {a: 4}, {a: 5}];
+                $scope.ui = {};
 
                 function update()
                 {
-                    $scope.items = _.flatten([items, items, items]);
+                    $scope.ui.items = _.flatten([items, items, items]);
                 }
 
-                $scope.enabled = 1;
+                $scope.ui.enabled = 1;
+                $scope.ui.activeIndex = 5;
                 $scope.selectItem = function(item)
                 {
                     console.log(item);
-                    $scope.selected = item;
+                    $scope.ui.selected = item;
+                };
+                $scope.choose = function(index)
+                {
+                    $scope.ui.activeIndex = index;
                 };
                 $scope.add = function()
                 {
@@ -69,16 +75,18 @@
     <body ng-app="app" ng-controller="MainCtrl">
         <div class="container">
 
-            <h1>Angular Slider Tabs v0.0.5</h1>
+            <h1>Angular Slider Tabs v0.0.6</h1>
             <p>Swipe left/right or tap a tab</p>
 
             <hr>
 
-            <p><b>Total:</b> {{items.length}}</p>
-            <p><b>Selected:</b> {{selected}}</p>
+            <p><b>Total:</b> {{ui.items.length}}</p>
+            <p><b>All:</b> {{ui.items}}</p>
+            <p><b>Selected:</b> {{ui.selected}}</p>
+            <p><b>Active Index:</b> {{ui.activeIndex}}</p>
             
-            <slider-tabs tabs-visible="3" ng-if="enabled">
-                <slider-tab class="slider-tab" ng-repeat="item in items track by $index" on-select="selectItem(item)">{{item.a}}</slider-tab>
+            <slider-tabs tabs-visible="3" active-index="ui.activeIndex" ng-if="ui.enabled">
+                <slider-tab class="slider-tab" ng-repeat="item in ui.items track by $index" on-select="selectItem(item)">{{item.a}}</slider-tab>
             </slider-tabs>
 
             <br>
@@ -92,9 +100,18 @@
                 </div>
                 <div class="col-xs-6 text-center">
                     <div class="btn-group">
-                        <button class="btn btn-success" ng-click="enabled = 1">Enable</button>
-                        <button class="btn btn-danger" ng-click="enabled = 0">Disable</button>
+                        <button class="btn btn-success" ng-click="ui.enabled = 1">Enable</button>
+                        <button class="btn btn-danger" ng-click="ui.enabled = 0">Disable</button>
                     </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="text-center">
+                <p><b>Active slider tab (have to disable/enable for now)</b></p>
+                <div class="btn-group">
+                    <button class="btn btn-default" ng-repeat="item in ui.items track by $index" ng-click="choose($index)">{{$index}}</button>
                 </div>
             </div>
 
