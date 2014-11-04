@@ -25,7 +25,7 @@
                 });
 
                 element.on('mouseup touchend', function(event) {
-                    var now = event.pageX || event.touches[0].pageX;
+                    var now = event.pageX || event.changedTouches[0].pageX;
                     if (angular.isDefined(now) && down === now) {
                         sliderTabsCtrl.slideToItem(scope);
                     }
