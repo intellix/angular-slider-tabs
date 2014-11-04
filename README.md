@@ -1,4 +1,5 @@
 # Angular Slider Tabs
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/intellix/angular-slider-tabs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Code Climate](https://codeclimate.com/github/intellix/angular-slider-tabs.png)](https://codeclimate.com/github/intellix/angular-slider-tabs)
 
